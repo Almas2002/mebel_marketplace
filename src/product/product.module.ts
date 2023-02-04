@@ -1,0 +1,18 @@
+import { Module } from '@nestjs/common';
+import { ProductService } from './product.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Product } from './product.entity';
+import { ProductController } from './product.controller';
+import { CategoryModule } from '../category/category.module';
+import { ProductInfoModule } from '../product-info/product-info.module';
+import { RegionModule } from '../region/region.module';
+import { FileModule } from '../file/file.module';
+
+@Module({
+  providers:[ProductService],
+  imports:[TypeOrmModule.forFeature([Product]),CategoryModule,ProductInfoModule,RegionModule,FileModule],
+  controllers:[ProductController]
+})
+export class ProductModule{
+
+}
