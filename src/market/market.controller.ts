@@ -1,16 +1,29 @@
-import { Body, Controller, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { MarketService } from './market.service';
 import { CreateMarketDto, QueryMarket, UpdateMarketDto } from './market.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { UserDecorator } from '../decorators/user.decorator';
+import { AuthGuard } from '../auth/guard/auth.guard';
 
 @ApiTags('market')
 @Controller('market')
 export class MarketController {
   constructor(private marketService: MarketService) {
   }
-
+  @ApiBearerAuth('defaultBearerAuth')
+  @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @Post()
   create(@Body()dto: CreateMarketDto, @UserDecorator('id')id: number, @UploadedFile('file') file: any) {
@@ -25,10 +38,10 @@ export class MarketController {
   get(@Query()query: QueryMarket) {
     return this.marketService.get(query);
   }
-
+  @ApiBearerAuth('defaultBearerAuth')
   @UseInterceptors(FileInterceptor('file'))
   @Put('/:id')
-  update(@Param('id')id: number, @Body()dto: UpdateMarketDto, @UploadedFile('file') file: any) {
-    return this.marketService.update(id, dto, 1, file);
+  update(@Param('id')id: number, @Body()dto: UpdateMarketDto, @UploadedFile('file') file: any,@UserDecorator('id')userId:number) {
+    return this.marketService.update(id, dto, userId, file);
   }
 }

@@ -5,10 +5,10 @@ import { Repository } from 'typeorm';
 import { RoleService } from '../role/role.service';
 import { UserRegistrationDto } from '../auth/dto/user-registration.dto';
 import { AddRoleDto } from './dto/add-role.dto';
-import { Profile } from '../profile/profile.entity';
+import { ProfileService } from '../profile/profile.service';
 
 export class UserService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>, private roleService: RoleService,) {
+  constructor(@InjectRepository(User) private userRepository: Repository<User>, private roleService: RoleService,private profileService:ProfileService) {
   }
 
   async create(dto: UserRegistrationDto, rol: string = 'ADMIN') {
@@ -17,6 +17,7 @@ export class UserService {
       role = await this.roleService.create({ description: `${rol} сайта`, value: rol });
     }
     const user = await this.userRepository.save(dto);
+    await this.profileService.create(user.id)
     user.roles = [role];
     await this.userRepository.save(user);
     delete user.password;

@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateMarketDto, QueryMarket, UpdateMarketDto } from './market.dto';
 import { MarketExistException } from './market.exception';
 import { FileService } from '../file/file.service';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MarketService {
@@ -16,7 +16,14 @@ export class MarketService {
     if (candidateMarket) {
       throw new MarketExistException();
     }
-    const fileName = await this.fileService.createFile(file);
+    const candidateUser = await this.marketRepository.findOne({where:{user:{id:userId}}})
+    if (candidateUser){
+      throw new HttpException("у этого пользователя уже есть магазин",400)
+    }
+    let fileName = ''
+    if (file){
+      fileName = await this.fileService.createFile(file);
+    }
     const market = await this.marketRepository.save({
       user: { id: userId },
       imageUrl: fileName,

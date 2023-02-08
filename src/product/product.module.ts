@@ -7,10 +7,11 @@ import { CategoryModule } from '../category/category.module';
 import { ProductInfoModule } from '../product-info/product-info.module';
 import { RegionModule } from '../region/region.module';
 import { FileModule } from '../file/file.module';
+import { FeedbackModule } from '../feedback/feedback.module';
 
 @Module({
   providers:[ProductService],
-  imports:[TypeOrmModule.forFeature([Product]),CategoryModule,ProductInfoModule,RegionModule,FileModule],
+  imports:[TypeOrmModule.forFeature([Product]),CategoryModule,ProductInfoModule,RegionModule,FileModule,FeedbackModule],
   controllers:[ProductController]
 })
 export class ProductModule{

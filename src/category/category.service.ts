@@ -23,7 +23,10 @@ export class CategoryService {
         throw new CategoryNotFoundException();
       }
     }
-    const fileName = await this.fileService.createFile(file);
+    let fileName = '';
+    if (file) {
+      fileName = await this.fileService.createFile(file);
+    }
     const category = await this.categoryRepository.save({ parent, title: dto.title, icon: fileName });
     return { id: category.id };
   }

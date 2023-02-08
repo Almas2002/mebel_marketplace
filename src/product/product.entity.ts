@@ -51,7 +51,6 @@ export class Product {
   feedbacks: FeedbackComment[];
 
   @OneToOne(() => FeedbackProduct, feedback => feedback.product)
-  @JoinColumn({ name: 'status_id' })
   status: FeedbackProduct;
 
   @ManyToMany(() => Profile, profile => profile.favorites)

@@ -1,4 +1,3 @@
-import { Profile } from '../profile/profile.entity';
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from '../product/product.entity';
 import { User } from '../user/user.entity';
@@ -8,8 +7,8 @@ export class FeedbackComment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToMany(() => User, profile => profile.feedbacks, { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'profile_id' })
+  @ManyToOne(() => User, profile => profile.feedbacks, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @ManyToOne(() => Product, product => product)

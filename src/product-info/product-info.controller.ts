@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateColorDto } from './dto/color.dto';
 import { ColorService } from './service/color.service';
-import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { OkHandler } from '../handler/ok-handler';
 import { FrameService } from './service/frame.service';
 import { DecorService } from './service/decor.service';
@@ -11,6 +11,7 @@ import { Color } from './entity/color.entity';
 import { Frame } from './entity/frame.entity';
 import { Decor } from './entity/decor.entity';
 
+@ApiTags('product-info')
 @Controller('product-info')
 export class ProductInfoController {
   constructor(private colorService: ColorService, private frameService: FrameService, private decorService: DecorService) {
@@ -21,32 +22,34 @@ export class ProductInfoController {
   createColor(@Body()dto: CreateColorDto) {
     return this.colorService.create(dto);
   }
+
   @ApiCreatedResponse({ type: OkHandler })
   @Post('decor')
   createDecor(@Body()dto: CreateDecorDto) {
     return this.decorService.create(dto);
   }
+
   @ApiCreatedResponse({ type: OkHandler })
   @Post('frame')
-  createFrame(@Body()dto:CreateFrameDto){
-    return this.frameService.create(dto)
+  createFrame(@Body()dto: CreateFrameDto) {
+    return this.frameService.create(dto);
   }
 
-  @ApiOkResponse({type:[Color]})
-  @Get("color")
-  getColorList(){
-    return this.colorService.getList()
+  @ApiOkResponse({ type: [Color] })
+  @Get('color')
+  getColorList() {
+    return this.colorService.getList();
   }
 
-  @ApiOkResponse({type:[Decor]})
-  @Get("decor")
-  getDecorList(){
-    return this.decorService.getList()
+  @ApiOkResponse({ type: [Decor] })
+  @Get('decor')
+  getDecorList() {
+    return this.decorService.getList();
   }
 
-  @ApiOkResponse({type:[Frame]})
-  @Get("frame")
-  getFrameList(){
-    return this.frameService.getList()
+  @ApiOkResponse({ type: [Frame] })
+  @Get('frame')
+  getFrameList() {
+    return this.frameService.getList();
   }
 }

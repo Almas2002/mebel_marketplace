@@ -8,11 +8,13 @@ import { RegionService } from '../region/region.service';
 import { ProductInfoService } from '../product-info/product-info.service';
 import { Color } from '../product-info/entity/color.entity';
 import { FileService } from '../file/file.service';
+import { FeedbackProductService } from '../feedback/service/feedback-product.service';
 
 @Injectable()
 export class ProductService {
   constructor(@InjectRepository(Product) private productRepository: Repository<Product>, private categoryService: CategoryService,
-              private productInfoService: ProductInfoService, private fileService: FileService, private regionService: RegionService) {
+              private productInfoService: ProductInfoService, private fileService: FileService, private regionService: RegionService,
+              private productFeedbackService:FeedbackProductService) {
   }
 
 
@@ -30,11 +32,11 @@ export class ProductService {
         price: dto.price,
         title: dto.title,
       });
+      await this.productFeedbackService.create(product.id)
       for (const file of files) {
         await this.fileService.createImageForProduct(await this.fileService.createFile(file), product);
       }
       const colors: Color [] = [];
-      console.log(dto.colors);
       for (let color of dto.colors) {
         await this.productRepository.query("INSERT INTO product_colors VALUES($1,$2)",[color,product.id])
       }
@@ -72,7 +74,7 @@ export class ProductService {
       query.having('COUNT(images.id) > 0');
     }
 
-    if (dto?.colors.length != 0) {
+    if (dto?.colors) {
       let colors = dto.colors.split(',');
       query.leftJoin('product.colors', 'colors');
       query.andWhere('colors.id IN (:...colors)', { colors });

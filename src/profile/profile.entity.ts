@@ -9,7 +9,7 @@ export class Profile {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => User, user => user.market)
+  @OneToOne(() => User, user => user.profile)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
