@@ -20,7 +20,7 @@ export class ProductInfoService {
       const info = await this.productInfoRepository.save({ decor, product: { id: productId }, ...dto });
       const frame = framesId.split(",")
       for (let frameId of frame) {
-        await this.productInfoRepository.query("INSERT INTO product_info_frames VALUES($1,$2)",[frame,info.id])
+        await this.productInfoRepository.query("INSERT INTO product_info_frames VALUES($1,$2)",[info.id,frameId])
       }
     } catch (e) {
       return productId;
