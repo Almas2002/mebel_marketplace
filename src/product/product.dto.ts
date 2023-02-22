@@ -17,14 +17,12 @@ export class CreateProductDto extends CreateProductInfoDto {
   @IsNotEmpty()
   @ApiProperty()
   categoryId: number;
-  @IsArray()
   @IsNotEmpty()
   @ApiProperty()
-  colors: number[];
+  colors: string;
   @IsNotEmpty()
   @ApiProperty()
-  @IsArray()
-  frames: number[];
+  frames: string;
 }
 
 export class GetProductListQuery{

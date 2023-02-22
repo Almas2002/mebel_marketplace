@@ -32,11 +32,7 @@ export class Product {
   discount: number;
   @ManyToOne(() => Category, category => category.products, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'category_id' })
-  category: Category;
-
-  @ManyToOne(() => Category, category => category.products, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'sub_category_id' })
-  subCategory: Category;
+  category: Category
 
   @ManyToOne(() => City, city => city.products)
   city: City;

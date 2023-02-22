@@ -14,16 +14,14 @@ export class ProductInfoService {
   constructor(@InjectRepository(ProductInfo) private productInfoRepository: Repository<ProductInfo>, private colorService: ColorService,
               private decorService: DecorService, private frameService: FrameService) {}
 
-  async create(productId: number, dto: CreateProductInfoDto, framesId: number[]) {
+  async create(productId: number, dto: CreateProductInfoDto, framesId:string) {
     try {
       const decor = await this.decorService.getById(dto.decorId);
       const info = await this.productInfoRepository.save({ decor, product: { id: productId }, ...dto });
-      const frames: Frame [] = [];
-      for (let frameId of framesId) {
-        frames.push(await this.frameService.getById(frameId));
+      const frame = framesId.split(",")
+      for (let frameId of frame) {
+        await this.productInfoRepository.query("INSERT INTO product_info_frames VALUES($1,$2)",[frame,info.id])
       }
-      info.frames = frames;
-      await this.productInfoRepository.save(info);
     } catch (e) {
       return productId;
     }

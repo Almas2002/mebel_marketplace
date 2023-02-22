@@ -21,12 +21,10 @@ export class ProductService {
   async create(dto: CreateProductDto, files: any[]) {
     try {
       const category = await this.categoryService.getCategoryById(dto.categoryId);
-      const subCategory = await this.categoryService.getCategoryById(dto.categoryId);
       const city = await this.regionService.findOneCityById(dto.cityId);
       const product = await this.productRepository.save({
         category,
         city,
-        subCategory,
         market: { id: dto.marketId },
         discount: dto.discount,
         price: dto.price,
@@ -36,12 +34,10 @@ export class ProductService {
       for (const file of files) {
         await this.fileService.createImageForProduct(await this.fileService.createFile(file), product);
       }
-      const colors: Color [] = [];
-      for (let color of dto.colors) {
+      const strCollars  = dto.colors.split(",")
+      for (let color of strCollars) {
         await this.productRepository.query("INSERT INTO product_colors VALUES($1,$2)",[color,product.id])
       }
-      product.colors = colors;
-      await this.productRepository.save(colors);
       await this.productInfoService.create(product.id, dto, dto.frames);
     } catch (e) {
       if (typeof e === 'number') {
@@ -98,7 +94,7 @@ export class ProductService {
   async getOne(id: number): Promise<Product> {
     return this.productRepository.findOne({
       where: { id },
-      relations: ['colors', 'images', 'city', 'market', 'status','info'],
-    });
+      relations: ['colors', 'images', 'city', 'market', 'status','info','info.frames'],
+    })
   }
 }
