@@ -13,9 +13,11 @@ export class AuthController {
   @ApiOperation({summary: 'login пользователя'})
   @ApiResponse({status: 201})
   @Post('login')
-  async login(@Body()data: UserLoginDto, @Res({passthrough: true})res) {
+  async login(@Body()data: UserLoginDto, @Res({passthrough: true})res,@Req()request) {
     const response = await this.authService.login(data);
     res.cookie('refreshToken', response.refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
+    const {refreshToken} = request?.cookies;
+    console.log(refreshToken);
     return response.access_token
   }
 
