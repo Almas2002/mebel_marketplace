@@ -2,6 +2,7 @@ server {
      listen 80;
      server_name 167.99.132.27;
      location / {
+        add_header Set-Cookie "Path=/; HttpOnly; Secure";
         add_header Access-Control-Allow-Origin *;
         proxy_pass http://api:3000/;
         proxy_set_header        X-Real-IP       $remote_addr;
