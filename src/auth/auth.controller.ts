@@ -32,7 +32,7 @@ export class AuthController {
   @ApiResponse({status: 201})
   @Get('refresh')
   async refresh(@Req()request, @Res({passthrough: true})response) {
-    const {refreshToken} = request.cookies;
+    const {refreshToken} = request?.cookies;
     const res = await this.authService.refresh(refreshToken);
     response.cookie('refreshToken', response.refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
     return res.access_token;

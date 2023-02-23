@@ -62,7 +62,7 @@ export class AuthService {
     }
     const campfirePassword = await bcrypt.compare(dto.password, user.password);
     if (!campfirePassword) {
-      errors['password'] = ['Некорректный пороль'];
+      errors['password'] = ['Некорректный пароль'];
       throw new HttpException({ errors }, HttpStatus.UNPROCESSABLE_ENTITY);
     }
     return user;
@@ -73,7 +73,7 @@ export class AuthService {
   }
 
   private verifyRefreshToken(refresh_token: string): { id: number } {
-    return this.jwtService.verify(refresh_token, { secret: 'refresh' });
+    return this.jwtService.verify(refresh_token, { secret: process.env.JWT_REFRESH_SECRET });
   }
 
   async refresh(refresh_token) {
