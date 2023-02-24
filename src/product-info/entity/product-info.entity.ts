@@ -30,10 +30,10 @@ export class ProductInfo {
   @Column()
   production: string;
 
-  @Column({ default: false })
+  @Column()
   liftingMechanism: boolean;
 
-  @Column({ default: false })
+  @Column()
   laundryBoxes: boolean;
 
   @OneToOne(() => Product, product => product.info)

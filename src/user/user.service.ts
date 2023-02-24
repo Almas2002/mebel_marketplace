@@ -21,7 +21,7 @@ export class UserService {
     user.roles = [role];
     await this.userRepository.save(user);
     delete user.password;
-    return user;
+    return user
   }
 
   async findUserById(id: number) {

@@ -27,4 +27,9 @@ export class FileService {
   async createImageForProduct(fileName: string, product: Product): Promise<void> {
     await this.imageRepository.save({ imageUrl: fileName, product });
   }
+
+  async deleteImage(id:number){
+    await this.imageRepository.delete({id})
+  }
+
 }

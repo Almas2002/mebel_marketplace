@@ -36,4 +36,23 @@ export class GetProductListQuery{
   priceTo:number;
   discount:boolean;
   photo:boolean;
+  marketId:number
+}
+
+export class UpdateProductDto extends CreateProductInfoDto{
+  @IsNotEmpty()
+  @ApiProperty()
+  price: number;
+  @ApiProperty({ required: false })
+  discount: number;
+  @IsNotEmpty()
+  @ApiProperty()
+  title: string;
+  @IsNotEmpty()
+  @ApiProperty()
+  colors: string;
+  @IsNotEmpty()
+  @ApiProperty()
+  frames: string;
+
 }

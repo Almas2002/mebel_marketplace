@@ -35,7 +35,9 @@ export class AuthController {
   @Get('refresh')
   async refresh(@Req()request, @Res({passthrough: true})response) {
     const {refreshToken} = request?.cookies;
+    console.log(refreshToken);
     const res = await this.authService.refresh(refreshToken);
+    console.log(res);
     response.cookie('refreshToken', response.refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
     return res.access_token;
   }
