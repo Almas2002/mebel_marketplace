@@ -15,23 +15,11 @@ export class CartService {
   }
 
   async create(id: number) {
-    await this.cartService.save({ user: { id } });
+    await this.cartService.save({ user: { id} });
   }
 
   async getCardWithUserId(id: number): Promise<Cart> {
     return this.cartService.findOne({ where: { user: { id } } });
   }
 
-  async updateTotalPrice(id: number, totalPrice: number, type: ChangeTotalPrice = ChangeTotalPrice.PLUS) {
-    const cart = await this.cartService.findOne({ where: { user: { id } } });
-    if (type == ChangeTotalPrice.PLUS) {
-      cart.totalPrice += totalPrice;
-    } else {
-      cart.totalPrice -= totalPrice;
-    }
-
-    await this.cartService.save(cart);
-
-
-  }
 }

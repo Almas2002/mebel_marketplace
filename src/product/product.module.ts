@@ -12,7 +12,8 @@ import { FeedbackModule } from '../feedback/feedback.module';
 @Module({
   providers:[ProductService],
   imports:[TypeOrmModule.forFeature([Product]),CategoryModule,ProductInfoModule,RegionModule,FileModule,FeedbackModule],
-  controllers:[ProductController]
+  controllers:[ProductController],
+  exports:[ProductService]
 })
 export class ProductModule{
 

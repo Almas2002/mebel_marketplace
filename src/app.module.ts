@@ -11,6 +11,7 @@ import { ProductModule } from './product/product.module';
 import { ProductInfoModule } from './product-info/product-info.module';
 import { AuthMiddleware } from './middleware/auth.milddleaware';
 import { FeedbackModule } from './feedback/feedback.module';
+import { CartModule } from './cart/cart.module';
 require("dotenv").config()
 
 @Module({
@@ -25,7 +26,7 @@ require("dotenv").config()
     // url: process.env.DATABASE_URL,
     entities: [__dirname + "/**/*.entity{.ts,.js}"],
     synchronize: true,
-  }),UserModule,AuthModule,RoleModule,CategoryModule,BannerModule,MarketModule,RegionModule,ProductModule,ProductInfoModule,FeedbackModule],
+  }),UserModule,AuthModule,RoleModule,CategoryModule,BannerModule,MarketModule,RegionModule,ProductModule,ProductInfoModule,FeedbackModule,CartModule],
   controllers: [],
   providers: [],
 })

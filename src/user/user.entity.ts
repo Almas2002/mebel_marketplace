@@ -3,6 +3,7 @@ import { Role } from '../role/role.entity';
 import { Market } from '../market/market.entity';
 import { FeedbackComment } from '../feedback/feedback-comment.entity';
 import { Profile } from '../profile/profile.entity';
+import { Cart } from '../cart/entity/cart.entity';
 
 @Entity()
 export class User {
@@ -23,4 +24,7 @@ export class User {
 
   @OneToMany(()=>FeedbackComment,feedback=>feedback.user,{onDelete:"SET NULL"})
   feedbacks: FeedbackComment[];
+
+  @OneToOne(()=>Cart,cart=>cart.user)
+  cart:Cart
 }

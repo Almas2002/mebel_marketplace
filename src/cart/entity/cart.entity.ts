@@ -2,17 +2,13 @@ import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn
 import { User } from '../../user/user.entity';
 import { CartItem } from './cart-item.entity';
 
-@Entity()
+@Entity({name:'carts'})
 export class Cart {
   @PrimaryGeneratedColumn()
   id: number;
-  @OneToOne(() => User)
+  @OneToOne(() => User,user=>user.cart)
   @JoinColumn({ name: 'user_id' })
   user: User;
-  @Column({ default: 0 })
-  totalPrice: number;
-
-
   @OneToMany(()=>CartItem,items=>items.cart)
-  cartItems:CartItem []
+  cartItems:CartItem [];
 }

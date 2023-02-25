@@ -1,9 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateCartItemDto{
-   carts:CartItemDto[]
-}
 
 export class CartItemDto{
   @ApiProperty()
@@ -13,7 +10,9 @@ export class CartItemDto{
   @IsNotEmpty()
   productId:number
 
-  @ApiProperty()
-  @IsNotEmpty()
-  totalPrice:number
+
+}
+
+export class PlusQtyItem {
+  id:number;
 }

@@ -101,6 +101,9 @@ export class ProductService {
       relations: ['colors', 'images', 'city', 'market', 'status', 'info', 'info.frames','info.decor'],
     });
   }
+  async getProductById(id:number){
+    return await this.productRepository.findOne({where:{id }})
+  }
 
   async updateProduct(dto: UpdateProductDto, id: number, files: any[]) {
     const product = await this.productRepository.findOne({ where: { id } });

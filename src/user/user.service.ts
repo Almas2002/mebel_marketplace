@@ -6,9 +6,10 @@ import { RoleService } from '../role/role.service';
 import { UserRegistrationDto } from '../auth/dto/user-registration.dto';
 import { AddRoleDto } from './dto/add-role.dto';
 import { ProfileService } from '../profile/profile.service';
+import { CartService } from '../cart/service/cart.service';
 
 export class UserService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>, private roleService: RoleService,private profileService:ProfileService) {
+  constructor(@InjectRepository(User) private userRepository: Repository<User>, private roleService: RoleService,private profileService:ProfileService,private cartService:CartService) {
   }
 
   async create(dto: UserRegistrationDto, rol: string = 'ADMIN') {
@@ -17,6 +18,7 @@ export class UserService {
       role = await this.roleService.create({ description: `${rol} сайта`, value: rol });
     }
     const user = await this.userRepository.save(dto);
+    await this.cartService.create(user.id)
     await this.profileService.create(user.id)
     user.roles = [role];
     await this.userRepository.save(user);
