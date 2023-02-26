@@ -43,7 +43,7 @@ export class MarketService {
     const query = await this.marketRepository.createQueryBuilder('market');
 
     if (dto?.userId) {
-      query.andWhere('market.userId = :userId', { userId: dto.userId });
+      query.andWhere('market.user_id = :userId', { userId: dto.userId });
     }
     if (dto?.title) {
       query.andWhere('market.title ILIKE :title ', { title: `%${dto.title}%` });
