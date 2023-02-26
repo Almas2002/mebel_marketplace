@@ -1,12 +1,11 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
-import { getManager, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CategoryService } from '../category/category.service';
 import { CreateProductDto, GetProductListQuery, UpdateProductDto } from './product.dto';
 import { RegionService } from '../region/region.service';
 import { ProductInfoService } from '../product-info/product-info.service';
-import { Color } from '../product-info/entity/color.entity';
 import { FileService } from '../file/file.service';
 import { FeedbackProductService } from '../feedback/service/feedback-product.service';
 
@@ -29,6 +28,7 @@ export class ProductService {
         discount: dto.discount,
         price: dto.price,
         title: dto.title,
+        description:dto.description
       });
       await this.productFeedbackService.create(product.id);
       for (const file of files) {
@@ -98,7 +98,7 @@ export class ProductService {
   async getOne(id: number): Promise<Product> {
     return this.productRepository.findOne({
       where: { id },
-      relations: ['colors', 'images', 'city', 'market', 'status', 'info', 'info.frames','info.decor'],
+      relations: ['colors', 'images', 'city', 'market', 'status','category', 'info', 'info.frames','info.decor'],
     });
   }
   async getProductById(id:number){
@@ -115,8 +115,10 @@ export class ProductService {
     product.discount = dto.discount;
     await this.productRepository.save(product);
 
-    for (const file of files) {
-      await this.fileService.createImageForProduct(await this.fileService.createFile(file), product);
+    if (files.length){
+      for (const file of files) {
+        await this.fileService.createImageForProduct(await this.fileService.createFile(file), product);
+      }
     }
     const strCollars = dto.colors.split(',');
     for (let color of strCollars) {
@@ -130,11 +132,8 @@ export class ProductService {
   }
 
   async deleteColor(productId: number, colorId: number) {
-    console.log(productId,colorId);
     const product = await this.productRepository.findOne({ where: { id: productId }, relations: ['colors'] });
-    console.log(product);
     const colors = product.colors.filter(color => color.id != colorId);
-    console.log(colors);
     product.colors = [...colors];
     await this.productRepository.save(product);
   }

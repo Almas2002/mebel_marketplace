@@ -30,9 +30,11 @@ export class Product {
   price: number;
   @Column({ default: 0 })
   discount: number;
+  @Column({ default: '' })
+  description: string;
   @ManyToOne(() => Category, category => category.products, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'category_id' })
-  category: Category
+  category: Category;
 
   @ManyToOne(() => City, city => city.products)
   city: City;
@@ -53,11 +55,11 @@ export class Product {
   @JoinTable({ name: PRODUCTS_FAVORITE })
   profilesLike: Profile;
 
-  @ManyToMany(()=>Color,color=>color.products)
-  @JoinTable({name:"product_colors"})
-  colors:Color[]
+  @ManyToMany(() => Color, color => color.products)
+  @JoinTable({ name: 'product_colors' })
+  colors: Color[];
 
-  @OneToOne(()=>ProductInfo,info=>info.product)
-  info:ProductInfo
+  @OneToOne(() => ProductInfo, info => info.product)
+  info: ProductInfo;
 
 }

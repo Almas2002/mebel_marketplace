@@ -23,6 +23,9 @@ export class CreateProductDto extends CreateProductInfoDto {
   @IsNotEmpty()
   @ApiProperty()
   frames: string;
+  @IsNotEmpty()
+  @ApiProperty()
+  description:string
 }
 
 export class GetProductListQuery{

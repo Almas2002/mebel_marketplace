@@ -31,6 +31,6 @@ export class ProfileService {
   }
 
   async get(userId: number) {
-    return await this.profileRepository.findOne({ where: { user: { id: userId } } });
+    return await this.profileRepository.findOne({ where: { user: { id: userId }, },relations:["user"] });
   }
 }

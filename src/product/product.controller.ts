@@ -45,7 +45,7 @@ export class ProductController {
   @Put('/:id')
   updateProduct(@Body()body: UpdateProductDto,@Param('id')id: number, @UploadedFiles()files: { file: any[] }) {
     console.log(id);
-    return this.productService.updateProduct(body, id, files.file);
+    return this.productService.updateProduct(body, id, files?.file);
   }
 
   @Delete('/photo/:id')

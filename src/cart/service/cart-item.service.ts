@@ -19,12 +19,13 @@ export class CartItemService {
     let candidate: CartItem;
     candidate = await this.cartItemRepository.findOne({
       where: {
-        cart: { id: cart.id },
+        cart: cart,
         product: { id: dto.productId },
       },
     });
     if (candidate) {
       await this.plusQtyCartItem(candidate.id);
+      return
     }
     const totalPrice = (product.price * dto.qty) * (1 - product.discount / 100);
     await this.cartItemRepository.save({ cart, product: { id: dto.productId }, qty: dto.qty, totalPrice });

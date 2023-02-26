@@ -35,7 +35,10 @@ export class MarketController {
   @ApiQuery({ name: 'title', example: 'market', required: false })
   @ApiQuery({ name: 'userId', example: 10, required: false })
   @Get()
-  get(@Query()query: QueryMarket) {
+  get(@Query()query: QueryMarket,@UserDecorator('id')id:number) {
+    if(!query?.userId){
+      query.userId = id
+    }
     return this.marketService.get(query);
   }
   @ApiBearerAuth('defaultBearerAuth')

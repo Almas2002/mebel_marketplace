@@ -15,7 +15,7 @@ export class CartItem{
   @Column()
   qty:number;
 
-  @Column()
+  @Column({type:"float",default:0})
   totalPrice:number
 
   @ManyToOne(()=>Cart,cart=>cart.cartItems)
