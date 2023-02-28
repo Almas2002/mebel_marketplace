@@ -58,7 +58,7 @@ export class OrderService {
   async getOrderById(id: number): Promise<Order> {
     return this.orderRepository.findOne({
       where: { id },
-      relations: ['marketOrders', 'marketOrders.items', 'items.product'],
+      relations: ['marketOrders', 'marketOrders.items','marketOrders.market','marketOrders.items.product','marketOrders.items.product.images'],
     });
   }
 
