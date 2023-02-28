@@ -126,8 +126,8 @@ export class ProductService {
         await this.fileService.createImageForProduct(await this.fileService.createFile(file), product);
       }
     }
-    const strCollars = dto.colors.split(',');
-    if(strCollars.length){
+    if (dto.colors.length){
+      const strCollars = dto.colors.split(',');
       for (let color of strCollars) {
         await this.productRepository.query('INSERT INTO product_colors VALUES($1,$2)', [color, product.id]);
       }

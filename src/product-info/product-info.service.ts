@@ -60,8 +60,8 @@ export class ProductInfoService {
 
   async update(productId: number, dto: CreateProductInfoDto, framesId: string) {
     const info = await this.productInfoRepository.findOne({ where: { product: { id: productId } } });
-    const frame = framesId.split(',');
-    if(frame.length){
+    if (framesId.length){
+      const frame = framesId.split(',');
       for (let frameId of frame) {
         await this.productInfoRepository.query('INSERT INTO product_info_frames VALUES($1,$2)', [info.id, frameId]);
       }
