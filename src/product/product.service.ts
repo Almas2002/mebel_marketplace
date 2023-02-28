@@ -121,7 +121,7 @@ export class ProductService {
     product.discount = dto.discount;
     await this.productRepository.save(product);
 
-    if (files.length){
+    if (files?.length){
       for (const file of files) {
         await this.fileService.createImageForProduct(await this.fileService.createFile(file), product);
       }
