@@ -127,8 +127,10 @@ export class ProductService {
       }
     }
     const strCollars = dto.colors.split(',');
-    for (let color of strCollars) {
-      await this.productRepository.query('INSERT INTO product_colors VALUES($1,$2)', [color, product.id]);
+    if(strCollars.length){
+      for (let color of strCollars) {
+        await this.productRepository.query('INSERT INTO product_colors VALUES($1,$2)', [color, product.id]);
+      }
     }
     await this.productInfoService.update(product.id, dto, dto.frames);
   }

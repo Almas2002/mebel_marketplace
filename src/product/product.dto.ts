@@ -51,10 +51,8 @@ export class UpdateProductDto extends CreateProductInfoDto{
   @IsNotEmpty()
   @ApiProperty()
   title: string;
-  @IsNotEmpty()
   @ApiProperty()
   colors: string;
-  @IsNotEmpty()
   @ApiProperty()
   frames: string;
 
