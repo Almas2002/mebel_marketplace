@@ -41,8 +41,8 @@ export class FeedbackCommentService {
     const offset = page * limit - limit;
 
     const query = await this.feedbackCommentRepository.createQueryBuilder('comment')
-      .leftJoinAndSelect("comment.user","profile",)
-      .leftJoinAndSelect("profile","profile")
+      .leftJoinAndSelect("comment.user","user",)
+      .leftJoinAndSelect("user.profile","profile")
     query.limit(limit);
     query.offset(offset);
 

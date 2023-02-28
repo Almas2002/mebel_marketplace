@@ -8,23 +8,26 @@ import { RegionService } from '../region/region.service';
 import { ProductInfoService } from '../product-info/product-info.service';
 import { FileService } from '../file/file.service';
 import { FeedbackProductService } from '../feedback/service/feedback-product.service';
+import { MarketService } from '../market/market.service';
+import { MarketNotFoundException } from '../market/market.exception';
 
 @Injectable()
 export class ProductService {
   constructor(@InjectRepository(Product) private productRepository: Repository<Product>, private categoryService: CategoryService,
               private productInfoService: ProductInfoService, private fileService: FileService, private regionService: RegionService,
-              private productFeedbackService: FeedbackProductService) {
+              private productFeedbackService: FeedbackProductService,private marketService:MarketService) {
   }
 
 
-  async create(dto: CreateProductDto, files: any[]) {
+  async create(dto: CreateProductDto, userId:number,files: any[]) {
     try {
       const category = await this.categoryService.getCategoryById(dto.categoryId);
       const city = await this.regionService.findOneCityById(dto.cityId);
+      const market = await this.marketService.getMarketByUserId(userId)
       const product = await this.productRepository.save({
         category,
         city,
-        market: { id: dto.marketId },
+        market,
         discount: dto.discount,
         price: dto.price,
         title: dto.title,

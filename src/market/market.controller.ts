@@ -5,7 +5,7 @@ import {
   Param,
   Post,
   Put,
-  Query,
+  Query, Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -16,6 +16,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { UserDecorator } from '../decorators/user.decorator';
 import { AuthGuard } from '../auth/guard/auth.guard';
+import { User } from '../user/user.entity';
 
 @ApiTags('market')
 @Controller('market')
@@ -35,9 +36,10 @@ export class MarketController {
   @ApiQuery({ name: 'title', example: 'market', required: false })
   @ApiQuery({ name: 'userId', example: 10, required: false })
   @Get()
-  get(@Query()query: QueryMarket,@UserDecorator('id')id:number) {
-    if(!query?.userId){
-      query.userId = id
+  get(@Query()query: QueryMarket,@Req()req) {
+    console.log( req.user);
+    if(!query?.userId && req.user){
+      query.userId = req.user
     }
     return this.marketService.get(query);
   }

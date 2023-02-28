@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Market } from './market.entity';
 import { Repository } from 'typeorm';
 import { CreateMarketDto, QueryMarket, UpdateMarketDto } from './market.dto';
-import { MarketExistException } from './market.exception';
+import { MarketExistException, MarketNotFoundException } from './market.exception';
 import { FileService } from '../file/file.service';
 import { HttpException, Injectable } from '@nestjs/common';
 
@@ -33,7 +33,15 @@ export class MarketService {
   }
 
   async getMarketByTitle(title: string) {
-    return this.marketRepository.findOne({ where: { title } });
+    const market = this.marketRepository.findOne({ where: { title } });
+    if (!market){
+      throw new MarketNotFoundException()
+    }
+    return market
+  }
+
+  async getMarketByUserId(id:number){
+    return  await this.marketRepository.findOne({where:{user:{id}}})
   }
 
   async get(dto: QueryMarket): Promise<{ data: Market[], count: number }> {

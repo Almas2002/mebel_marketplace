@@ -8,10 +8,11 @@ import { ProductInfoModule } from '../product-info/product-info.module';
 import { RegionModule } from '../region/region.module';
 import { FileModule } from '../file/file.module';
 import { FeedbackModule } from '../feedback/feedback.module';
+import { MarketModule } from '../market/market.module';
 
 @Module({
   providers:[ProductService],
-  imports:[TypeOrmModule.forFeature([Product]),CategoryModule,ProductInfoModule,RegionModule,FileModule,FeedbackModule],
+  imports:[TypeOrmModule.forFeature([Product]),CategoryModule,ProductInfoModule,RegionModule,FileModule,FeedbackModule,MarketModule],
   controllers:[ProductController],
   exports:[ProductService]
 })

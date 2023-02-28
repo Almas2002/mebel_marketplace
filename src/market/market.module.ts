@@ -8,7 +8,8 @@ import { MarketController } from './market.controller';
 @Module({
   providers:[MarketService],
   imports:[TypeOrmModule.forFeature([Market]),FileModule],
-  controllers:[MarketController]
+  controllers:[MarketController],
+  exports:[MarketService]
 })
 export class MarketModule{
 

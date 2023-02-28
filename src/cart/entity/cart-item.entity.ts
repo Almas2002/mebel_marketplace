@@ -2,13 +2,14 @@ import { Product } from '../../product/product.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Cart } from './cart.entity';
 import { Order } from '../../order/order.entity';
+import { OrderMarket } from '../../order/order-market.entity';
 
 @Entity()
 export class CartItem{
   @PrimaryGeneratedColumn()
   id:number;
 
-  @OneToOne(()=>Product,product=>product)
+  @ManyToOne(()=>Product,product=>product.cariItems,)
   @JoinColumn({name:"product_id"})
   product:Product
 
@@ -21,7 +22,8 @@ export class CartItem{
   @ManyToOne(()=>Cart,cart=>cart.cartItems)
   @JoinColumn({name:"cart_id"})
   cart:Cart;
-  @ManyToOne(()=>Order,order=>order)
+
+  @ManyToOne(()=>OrderMarket,order=>order.items,{nullable:true,onDelete:"CASCADE"})
   @JoinColumn({name:"order_id"})
-  order:Order;
+  orderMarket:OrderMarket;
 }

@@ -1,9 +1,23 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiImplicitFile } from '@nestjs/swagger/dist/decorators/api-implicit-file.decorator';
 import { CreateProductDto, GetProductListQuery, UpdateProductDto } from './product.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/guard/auth.guard';
+import { UserDecorator } from '../decorators/user.decorator';
 
 @ApiTags('product')
 @Controller('product')
@@ -13,10 +27,10 @@ export class ProductController {
 
   @ApiImplicitFile({ name: 'file', description: 'фото для машины' })
   @UseInterceptors(FileFieldsInterceptor(([{ name: 'file', maxCount: 7 }])))
+  @UseGuards(AuthGuard)
   @Post()
-  create(@Body() dto: CreateProductDto, @UploadedFiles()files: { file: any[] }) {
-    console.log(dto);
-    return this.productService.create(dto, files.file);
+  create(@Body() dto: CreateProductDto, @UploadedFiles()files: { file: any[] },@UserDecorator('id')id:number) {
+    return this.productService.create(dto,id, files.file);
   }
 
   @ApiQuery({ name: 'limit', type: 'int', required: false })

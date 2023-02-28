@@ -17,6 +17,7 @@ import { Profile } from '../profile/profile.entity';
 import { City } from '../region/entity/city.entity';
 import { Color } from '../product-info/entity/color.entity';
 import { ProductInfo } from '../product-info/entity/product-info.entity';
+import { CartItem } from '../cart/entity/cart-item.entity';
 
 const PRODUCTS_FAVORITE = 'products_favorite';
 
@@ -61,5 +62,9 @@ export class Product {
 
   @OneToOne(() => ProductInfo, info => info.product)
   info: ProductInfo;
+
+  @OneToMany(()=>CartItem,item=>item.product)
+  cariItems:CartItem []
+
 
 }
