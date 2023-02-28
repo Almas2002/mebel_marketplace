@@ -1,6 +1,6 @@
 server {
      listen 80;
-     server_name 167.99.132.27;
+     server_name api.loom.kz 167.99.132.27 ;
      location / {
         proxy_cookie_path / "/; secure; HttpOnly; SameSite=strict";
         add_header Access-Control-Allow-Origin *;
