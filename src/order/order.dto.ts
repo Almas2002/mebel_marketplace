@@ -1,5 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { StatusOfOrder } from './order-market.entity';
 
 export class CreateOrderDto {
   @IsNotEmpty()
@@ -22,4 +23,8 @@ export class CreateOrderDto {
 export class OrderQuery {
   limit: number;
   page: number;
+}
+
+export class OrderMarketQuery extends OrderQuery{
+  status: StatusOfOrder
 }

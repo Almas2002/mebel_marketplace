@@ -4,7 +4,9 @@ import { CartItemService } from './service/cart-item.service';
 import { CartItemDto } from './cart.dto';
 import { AuthGuard } from '../auth/guard/auth.guard';
 import { UserDecorator } from '../decorators/user.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('cart')
 @Controller('cart')
 export class CartController {
   constructor(private cartService: CartItemService) {

@@ -18,6 +18,7 @@ import { CreateProductDto, GetProductListQuery, UpdateProductDto } from './produ
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/guard/auth.guard';
 import { UserDecorator } from '../decorators/user.decorator';
+import { OrderQuery } from '../order/order.dto';
 
 @ApiTags('product')
 @Controller('product')
@@ -29,8 +30,8 @@ export class ProductController {
   @UseInterceptors(FileFieldsInterceptor(([{ name: 'file', maxCount: 7 }])))
   @UseGuards(AuthGuard)
   @Post()
-  create(@Body() dto: CreateProductDto, @UploadedFiles()files: { file: any[] },@UserDecorator('id')id:number) {
-    return this.productService.create(dto,id, files.file);
+  create(@Body() dto: CreateProductDto, @UploadedFiles()files: { file: any[] }, @UserDecorator('id')id: number) {
+    return this.productService.create(dto, id, files.file);
   }
 
   @ApiQuery({ name: 'limit', type: 'int', required: false })
@@ -48,16 +49,22 @@ export class ProductController {
   getList(@Query()dto: GetProductListQuery) {
     return this.productService.getList(dto);
   }
-
+  @ApiQuery({ name: 'limit', type: 'int', required: false })
+  @ApiQuery({ name: 'page', type: 'int', required: false })
+  @Get('/admin')
+  getProductsForAdmin(@Query()query: OrderQuery) {
+    return this.productService.getProductsAdmin(query);
+  }
   @ApiImplicitFile({ name: 'file', description: 'фото для машины' })
   @UseInterceptors(FileFieldsInterceptor(([{ name: 'file', maxCount: 7 }])))
   @Get('/:id')
   getOne(@Param('id')id: number) {
     return this.productService.getOne(id);
   }
+
   @UseInterceptors(FileFieldsInterceptor(([{ name: 'file', maxCount: 7 }])))
   @Put('/:id')
-  updateProduct(@Body()body: UpdateProductDto,@Param('id')id: number, @UploadedFiles()files: { file: any[] }) {
+  updateProduct(@Body()body: UpdateProductDto, @Param('id')id: number, @UploadedFiles()files: { file: any[] }) {
     console.log(id);
     return this.productService.updateProduct(body, id, files?.file);
   }
@@ -76,4 +83,11 @@ export class ProductController {
   deleteFrame(@Param('frameId')frameId: number, @Param('productId')productId: number) {
     return this.productService.deleteFrames(productId, frameId);
   }
+
+  @Put('/confirm/:id')
+  confirmProduct(@Param('id')id: number) {
+    return this.productService.confirmProduct(id);
+  }
+
+
 }

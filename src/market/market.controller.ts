@@ -37,9 +37,8 @@ export class MarketController {
   @ApiQuery({ name: 'userId', example: 10, required: false })
   @Get()
   get(@Query()query: QueryMarket,@Req()req) {
-    console.log( req.user);
     if(!query?.userId && req.user){
-      query.userId = req.user
+      query.userId = req.user.id
     }
     return this.marketService.get(query);
   }

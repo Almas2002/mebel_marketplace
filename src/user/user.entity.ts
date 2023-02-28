@@ -26,5 +26,5 @@ export class User {
   feedbacks: FeedbackComment[];
 
   @OneToOne(()=>Cart,cart=>cart.user)
-  cart:Cart
+  cart:Cart;
 }

@@ -10,6 +10,8 @@ import { FileService } from '../file/file.service';
 import { FeedbackProductService } from '../feedback/service/feedback-product.service';
 import { MarketService } from '../market/market.service';
 import { MarketNotFoundException } from '../market/market.exception';
+import { OrderMarket } from '../order/order-market.entity';
+import { OrderQuery } from '../order/order.dto';
 
 @Injectable()
 export class ProductService {
@@ -58,6 +60,7 @@ export class ProductService {
       .leftJoinAndSelect('product.images', 'images')
       .addGroupBy("product.id")
       .addGroupBy("images.id")
+      .where("product.confirm = :confirm",{confirm:true})
 
     if (dto?.categoryId) {
       query.andWhere('product.category_id = :categoryId', { categoryId: dto.categoryId });
@@ -143,6 +146,23 @@ export class ProductService {
 
   async deleteFrames(productId: number, frameId: number) {
     await this.productInfoService.deleteFrames(productId, frameId);
+  }
+
+  async getProductsAdmin(dto:OrderQuery){
+    const limit = dto?.limit || 10;
+    const page = dto?.page || 1;
+    const offset = page * limit - limit;
+    const query = this.productRepository.createQueryBuilder('product')
+      .leftJoinAndSelect('product.images', 'images')
+    query.limit(limit);
+    query.offset(offset);
+
+    const data = await query.getManyAndCount();
+    return { data: data[0], count: data[1] };
+  }
+
+  async confirmProduct(id:number){
+    await this.productRepository.update({id},{confirm:true})
   }
 
 

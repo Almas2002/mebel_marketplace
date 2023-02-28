@@ -4,7 +4,7 @@ import { Order } from './order.entity';
 import { Repository } from 'typeorm';
 import { OrderMarket } from './order-market.entity';
 import { CartItemService } from '../cart/service/cart-item.service';
-import { CreateOrderDto, OrderQuery } from './order.dto';
+import { CreateOrderDto, OrderMarketQuery, OrderQuery } from './order.dto';
 import { CartService } from '../cart/service/cart.service';
 import { Product } from '../product/product.entity';
 import { QueryMarket } from '../market/market.dto';
@@ -61,7 +61,27 @@ export class OrderService {
       relations: ['marketOrders', 'marketOrders.items','marketOrders.market','marketOrders.items.product','marketOrders.items.product.images'],
     });
   }
+  async getOrdersToMarket(dto:OrderMarketQuery,userId:number){
+    const limit = dto?.limit || 10;
+    const page = dto?.page || 1;
+    const offset = page * limit - limit;
+    const query = this.orderMarket.createQueryBuilder("order")
+      .leftJoin("order.market","market")
+      .where("market.user_id = :userId",{userId})
+      .leftJoinAndSelect('order.items','items')
+      .leftJoinAndSelect('items.product', 'product')
+      .leftJoinAndSelect('product.images', 'images');
+    if(dto?.status){
+      query.andWhere("order.status = :status",{status:dto.status})
+    }
 
+    query.limit(limit);
+    query.offset(offset);
+
+    const data = await query.getManyAndCount();
+    return { data: data[0], count: data[1] };
+
+  }
   async getOrder(dto: OrderQuery, userId: number): Promise<{ data: Order[], count: number }> {
     const cart = await this.cartService.getCardWithUserId(userId);
     const limit = dto?.limit || 10;

@@ -66,5 +66,8 @@ export class Product {
   @OneToMany(()=>CartItem,item=>item.product)
   cariItems:CartItem []
 
+  @Column({default:false})
+  confirm:boolean
+
 
 }
