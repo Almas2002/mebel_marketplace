@@ -41,6 +41,7 @@ export class CartItemService {
     const cart = await this.cartService.getCardWithUserId(userId);
     const query = await this.cartItemRepository.createQueryBuilder('items')
       .leftJoinAndSelect('items.product', 'product')
+      .leftJoinAndSelect('product.market', 'market')
       .leftJoinAndSelect('product.images', 'images')
       .where('items.cart_id = :cartId', { cartId: cart.id })
       .andWhere('items.order_id IS NULL');
