@@ -29,7 +29,7 @@ export class ProductService {
       const product = await this.productRepository.save({
         category,
         city,
-        market,
+        market:{id:market.id},
         discount: dto.discount,
         price: dto.price,
         title: dto.title,
@@ -43,7 +43,8 @@ export class ProductService {
       for (let color of strCollars) {
         await this.productRepository.query('INSERT INTO product_colors VALUES($1,$2)', [color, product.id]);
       }
-      await this.productInfoService.create(product.id, dto, dto.frames);
+       await this.productInfoService.create(product.id, dto, dto.frames);
+      return {id:product.id}
     } catch (e) {
       if (typeof e === 'number') {
         await this.productRepository.delete({ id: e });

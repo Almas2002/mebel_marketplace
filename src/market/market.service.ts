@@ -41,7 +41,11 @@ export class MarketService {
   }
 
   async getMarketByUserId(id:number){
-    return  await this.marketRepository.findOne({where:{user:{id}}})
+    const market =  await this.marketRepository.findOne({where:{user:{id}}})
+    if (!market){
+      throw new HttpException("магазин не найден",404)
+    }
+    return market
   }
 
   async get(dto: QueryMarket): Promise<{ data: Market[], count: number }> {
@@ -65,16 +69,22 @@ export class MarketService {
   }
 
   async update(marketId: number, dto: UpdateMarketDto, userId: number, file: any) {
-    const candidateMarket = await this.getMarketByTitle(dto.title);
-    if (candidateMarket) {
-      throw new MarketExistException();
-    }
     const market = await this.marketRepository.findOne({ where: { id: marketId, user: { id: userId } } });
+    if (market.title != dto.title){
+      const candidateMarket = await this.getMarketByTitle(dto.title);
+      if (candidateMarket) {
+        throw new MarketExistException();
+      }
+    }
     let fileName = market.imageUrl;
     if (file) {
       fileName = await this.fileService.createFile(file);
     }
     await this.marketRepository.update({ id: marketId }, { imageUrl: fileName, ...dto });
     return;
+  }
+
+  async  getAllForAdmins(){
+
   }
 }
