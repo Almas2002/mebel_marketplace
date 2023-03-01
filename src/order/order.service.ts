@@ -2,7 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './order.entity';
 import { Repository } from 'typeorm';
-import { OrderMarket } from './order-market.entity';
+import { OrderMarket, StatusOfOrder } from './order-market.entity';
 import { CartItemService } from '../cart/service/cart-item.service';
 import { CreateOrderDto, OrderMarketQuery, OrderQuery } from './order.dto';
 import { CartService } from '../cart/service/cart.service';
@@ -82,6 +82,14 @@ export class OrderService {
     return { data: data[0], count: data[1] };
 
   }
+
+  async getOrdersToMarketOne(id:number){
+    return await this.orderMarket.findOne({where:{id},relations:["items","items.product"]})
+  }
+  async getOrdersMarketUpdate(id:number,status:StatusOfOrder){
+    await  this.orderMarket.update({id},{status})
+  }
+
   async getOrder(dto: OrderQuery, userId: number): Promise<{ data: Order[], count: number }> {
     const cart = await this.cartService.getCardWithUserId(userId);
     const limit = dto?.limit || 10;

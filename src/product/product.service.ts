@@ -12,6 +12,7 @@ import { MarketService } from '../market/market.service';
 import { MarketNotFoundException } from '../market/market.exception';
 import { OrderMarket } from '../order/order-market.entity';
 import { OrderQuery } from '../order/order.dto';
+import { ProductNotFoundException } from './product.exception';
 
 @Injectable()
 export class ProductService {
@@ -109,7 +110,11 @@ export class ProductService {
     });
   }
   async getProductById(id:number){
-    return await this.productRepository.findOne({where:{id }})
+    const product = await this.productRepository.findOne({where:{id }})
+    if (!product){
+      throw new ProductNotFoundException()
+    }
+    return product
   }
 
   async updateProduct(dto: UpdateProductDto, id: number, files: any[]) {
@@ -165,7 +170,9 @@ export class ProductService {
   }
 
   async confirmProduct(id:number){
-    await this.productRepository.update({id},{confirm:true})
+    const product = await this.productRepository.findOne({where:{id}})
+    product.confirm = !product.confirm
+    await this.productRepository.save(product)
   }
 
 

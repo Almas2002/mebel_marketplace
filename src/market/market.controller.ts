@@ -30,7 +30,13 @@ export class MarketController {
   create(@Body()dto: CreateMarketDto, @UserDecorator('id')id: number, @UploadedFile('file') file: any) {
     return this.marketService.create(dto, id, file);
   }
-
+  @ApiQuery({ name: 'limit', example: 10, required: false })
+  @ApiQuery({ name: 'page', example: 1, required: false })
+  @ApiQuery({ name: 'title', example: 'market', required: false })
+  @Get('admins')
+  getAdmins(@Query()query: QueryMarket){
+    return this.marketService.getAllForAdmins(query);
+  }
   @ApiQuery({ name: 'limit', example: 10, required: false })
   @ApiQuery({ name: 'page', example: 1, required: false })
   @ApiQuery({ name: 'title', example: 'market', required: false })

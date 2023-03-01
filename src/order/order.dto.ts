@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { StatusOfOrder } from './order-market.entity';
 
@@ -26,5 +26,11 @@ export class OrderQuery {
 }
 
 export class OrderMarketQuery extends OrderQuery{
+  status: StatusOfOrder
+}
+
+export class OrderMarketUpdate {
+  @ApiProperty({ example: StatusOfOrder.CREATED, description: 'status',enum:StatusOfOrder})
+  @IsEnum(StatusOfOrder)
   status: StatusOfOrder
 }

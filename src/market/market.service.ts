@@ -84,7 +84,19 @@ export class MarketService {
     return;
   }
 
-  async  getAllForAdmins(){
+  async  getAllForAdmins(dto: QueryMarket){
+    const limit = dto?.limit || 10;
+    const page = dto?.page || 1;
+    const offset = page * limit - limit;
+    const query = await this.marketRepository.createQueryBuilder('market');
 
+    if (dto?.userId) {
+      query.andWhere('market.user_id = :userId', { userId: dto.userId });
+    }
+    query.limit(limit);
+    query.offset(offset);
+
+    const data = await query.getManyAndCount();
+    return { data: data[0], count: data[1] };
   }
 }

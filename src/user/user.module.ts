@@ -12,6 +12,6 @@ import { CartModule } from '../cart/cart.module';
   controllers:[],
   providers:[UserService],
   imports:[TypeOrmModule.forFeature([User]),forwardRef(()=>AuthModule),RoleModule,ProfileModule,CartModule],
-  exports:[UserService]
+  exports:[UserService],
 })
 export class UserModule{}
