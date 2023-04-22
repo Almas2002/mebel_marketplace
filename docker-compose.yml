@@ -25,6 +25,8 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+      - - www-html:/var/www/html
+      - etc-letsencrypt:/etc/letsencrypt
     depends_on:
       - api
   db:
