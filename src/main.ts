@@ -6,10 +6,7 @@ import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
-  app.enableCors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-  })
+  app.enableCors({})
   app.use(cookieParser())
   const config = new DocumentBuilder()
     .setTitle("Mebel marketplace")
