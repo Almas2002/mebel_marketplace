@@ -1,6 +1,13 @@
 server {
      listen 80;
-     server_name api.loom.kz 167.99.132.27 ;
+     listen [::]:80;
+
+     server_name api.loom.kz;
+     server_tokens off;
+     location ~ /.well-known/acme-challenge {
+             allow all;
+             root /var/www/html;
+     }
      location / {
         proxy_cookie_path / "/; secure; HttpOnly; SameSite=strict";
         add_header Access-Control-Allow-Origin *;
