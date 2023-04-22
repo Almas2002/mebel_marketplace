@@ -5,9 +5,9 @@ import { MyValidationPipe } from './pipes/MyValidation.pipe';
 
 import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule,{cors:{origin:true}})
+  const app = await NestFactory.create(AppModule)
   app.enableCors({
-    origin: ['https://loom.kz'],
+    origin: ['*'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   })
