@@ -5,7 +5,12 @@ import { MyValidationPipe } from './pipes/MyValidation.pipe';
 
 import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule,{cors:false})
+  const app = await NestFactory.create(AppModule)
+  app.enableCors({
+    origin: ["*", 'https://admin.adu24.com/','https://market-admin.adu24.com/','https://adu24.com/'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  })
   app.use(cookieParser())
   const config = new DocumentBuilder()
     .setTitle("Mebel marketplace")
