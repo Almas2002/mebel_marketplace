@@ -1,9 +1,12 @@
-FROM node:16-alpine
+FROM node:16
+
 
 COPY package*.json ./
 
-RUN npm i npm
-
-RUN npm install
+RUN  npm install
 
 COPY . .
+
+RUN npm run build
+
+CMD ["npm","start"]
