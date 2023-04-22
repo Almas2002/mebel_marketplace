@@ -21,7 +21,6 @@ server {
    ssl_certificate_key /etc/letsencrypt/live/api.loom.kz/privkey.pem;
 
    location / {
-      add_header Access-Control-Allow-Origin *;
               proxy_pass http://api:3000/;
               proxy_set_header        X-Real-IP       $remote_addr;
               proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
