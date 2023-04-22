@@ -9,7 +9,7 @@ async function bootstrap() {
   app.enableCors({
     origin:["https://loom.kz/"],
     methods: ['GET','HEAD','PUT','PATCH','POST','DELETE', 'OPTIONS'],
-    allowedHeaders:"*"
+
     //credentials:true
   })
   app.use(cookieParser())
