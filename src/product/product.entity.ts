@@ -37,7 +37,7 @@ export class Product {
   @JoinColumn({ name: 'category_id' })
   category: Category;
 
-  @ManyToOne(() => City, city => city.products)
+  @ManyToOne(() => City, city => city.products,{onDelete:"CASCADE"})
   city: City;
   @OneToMany(() => Image, image => image.product, { onDelete: 'CASCADE' })
   images: Image[];
