@@ -12,16 +12,9 @@ export class CategoryService {
   }
 
   async create(dto: CreateCategoryDto, file: any): Promise<{ id: number }> {
-    const candidate = await this.getCategoryByTittle(dto.title);
-    if (candidate) {
-      throw new CategoryExistException();
-    }
     let parent = null;
     if (dto.categoryId) {
       parent = await this.getCategoryById(dto.categoryId);
-      if (!parent) {
-        throw new CategoryNotFoundException();
-      }
     }
     let fileName = '';
     if (file) {

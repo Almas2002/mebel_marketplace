@@ -61,7 +61,10 @@ export class ProductController {
   getOne(@Param('id')id: number) {
     return this.productService.getOne(id);
   }
-
+  @Delete('/:id')
+  deleteProduct(@Param('id')id:number){
+    return this.productService.deleteProduct(id)
+  }
   @UseInterceptors(FileFieldsInterceptor(([{ name: 'file', maxCount: 7 }])))
   @Put('/:id')
   updateProduct(@Body()body: UpdateProductDto, @Param('id')id: number, @UploadedFiles()files: { file: any[] }) {

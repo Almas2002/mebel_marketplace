@@ -175,5 +175,9 @@ export class ProductService {
     await this.productRepository.save(product)
   }
 
+  async deleteProduct(id:number){
+    await this.productRepository.delete({id})
+  }
+
 
 }

@@ -11,7 +11,7 @@ export class FeedbackComment {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Product, product => product)
+  @ManyToOne(() => Product, product => product,{onDelete:"CASCADE"})
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
