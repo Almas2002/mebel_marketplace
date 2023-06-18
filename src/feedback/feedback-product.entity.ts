@@ -5,7 +5,7 @@ import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'ty
 export class FeedbackProduct {
   @PrimaryGeneratedColumn()
   id: number;
-  @OneToOne(() => Product, product => product)
+  @OneToOne(() => Product, product => product,{onDelete:"CASCADE"})
   @JoinColumn({ name: 'product_id' })
   product: Product;
   @Column({ type: 'float', default: 0 })

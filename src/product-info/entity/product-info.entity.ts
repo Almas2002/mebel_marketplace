@@ -36,15 +36,15 @@ export class ProductInfo {
   @Column()
   laundryBoxes: boolean;
 
-  @OneToOne(() => Product, product => product.info)
+  @OneToOne(() => Product, product => product.info,{onDelete:"CASCADE"})
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
 
-  @ManyToOne(() => Decor, decor => decor.productInfos)
+  @ManyToOne(() => Decor, decor => decor.productInfos,{onDelete:"CASCADE"})
   decor: Decor;
 
-  @ManyToMany(() => Frame, frame => frame.productInfos)
+  @ManyToMany(() => Frame, frame => frame.productInfos,{onDelete:"CASCADE"})
   @JoinTable({ name: 'product_info_frames' })
   frames: Frame[];
 }

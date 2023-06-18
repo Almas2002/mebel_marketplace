@@ -46,24 +46,24 @@ export class Product {
   @JoinColumn({ name: 'market_id' })
   market: Market;
 
-  @OneToMany(() => FeedbackComment, feedback => feedback.product)
+  @OneToMany(() => FeedbackComment, feedback => feedback.product,{onDelete:"CASCADE"})
   feedbacks: FeedbackComment[];
 
-  @OneToOne(() => FeedbackProduct, feedback => feedback.product)
+  @OneToOne(() => FeedbackProduct, feedback => feedback.product,{onDelete:"CASCADE"})
   status: FeedbackProduct;
 
-  @ManyToMany(() => Profile, profile => profile.favorites)
+  @ManyToMany(() => Profile, profile => profile.favorites,{onDelete:"CASCADE"})
   @JoinTable({ name: PRODUCTS_FAVORITE })
   profilesLike: Profile;
 
-  @ManyToMany(() => Color, color => color.products)
+  @ManyToMany(() => Color, color => color.products,{onDelete:"CASCADE"})
   @JoinTable({ name: 'product_colors' })
   colors: Color[];
 
-  @OneToOne(() => ProductInfo, info => info.product)
+  @OneToOne(() => ProductInfo, info => info.product,{onDelete:"CASCADE"})
   info: ProductInfo;
 
-  @OneToMany(()=>CartItem,item=>item.product)
+  @OneToMany(()=>CartItem,item=>item.product,{onDelete:"CASCADE"})
   cariItems:CartItem []
 
   @Column({default:false})

@@ -33,11 +33,11 @@ export class Market {
   @OneToMany(() => Product, product => product.market,{onDelete:"CASCADE"})
   products: Product[];
 
-  @OneToOne(()=>User,user=>user.market)
+  @OneToOne(()=>User,user=>user.market,{onDelete:"CASCADE"})
   @JoinColumn({name:"user_id"})
   user:User
 
 
-  @OneToMany(()=>OrderMarket,order=>order.market)
+  @OneToMany(()=>OrderMarket,order=>order.market,{onDelete:"CASCADE"})
   orders :OrderMarket[]
 }

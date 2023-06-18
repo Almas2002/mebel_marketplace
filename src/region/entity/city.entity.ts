@@ -17,7 +17,7 @@ export class City {
   @ManyToOne(() => Region, region => region.cities, { onDelete: 'CASCADE' })
   region: Region;
 
-  @OneToMany(() => Product, product => product.city)
+  @OneToMany(() => Product, product => product.city,{onDelete:"CASCADE"})
   products: Product[];
 
   @OneToMany(() => Market, market => market.city)

@@ -8,7 +8,7 @@ export class Image{
   @Column({name:"image_url"})
   imageUrl:string
 
-  @ManyToOne(()=>Product,product=>product.category)
+  @ManyToOne(()=>Product,product=>product.category,{onDelete:"CASCADE"})
   @JoinColumn({name:"product_id"})
   product:Product
 }

@@ -9,7 +9,7 @@ export class Profile {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => User, user => user.profile)
+  @OneToOne(() => User, user => user.profile,{onDelete:"CASCADE"})
   @JoinColumn({ name: 'user_id' })
   user: User;
 
@@ -31,7 +31,7 @@ export class Profile {
   @Column({ nullable: true, name: 'year_of_birth' })
   yearOfBirth: number;
 
-  @ManyToMany(()=>Product,product=>product)
+  @ManyToMany(()=>Product,product=>product,{onDelete:"CASCADE"})
   favorites:Product[]
 
 }

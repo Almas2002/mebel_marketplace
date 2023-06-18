@@ -10,7 +10,7 @@ export class Color{
   @Column()
   value:string;
 
-  @ManyToMany(()=>Product,product=>product.colors)
+  @ManyToMany(()=>Product,product=>product.colors,{onDelete:"CASCADE"})
   @JoinTable({name:"product_colors"})
   products:Product[]
 }

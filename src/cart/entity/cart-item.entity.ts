@@ -9,7 +9,7 @@ export class CartItem{
   @PrimaryGeneratedColumn()
   id:number;
 
-  @ManyToOne(()=>Product,product=>product.cariItems,)
+  @ManyToOne(()=>Product,product=>product.cariItems,{onDelete:"CASCADE"})
   @JoinColumn({name:"product_id"})
   product:Product
 
