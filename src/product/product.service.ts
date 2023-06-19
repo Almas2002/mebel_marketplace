@@ -60,6 +60,7 @@ export class ProductService {
     const offset = page * limit - limit;
     const query = this.productRepository.createQueryBuilder('product')
       .leftJoinAndSelect('product.images', 'images')
+      .leftJoinAndSelect("product.status","status")
       .addGroupBy("product.id")
       .addGroupBy("images.id")
       .where("product.confirm = :confirm",{confirm:true})
@@ -96,8 +97,8 @@ export class ProductService {
       query.andWhere('product.price >= :priceFrom', { priceFrom: dto.priceFrom });
     }
 
-    query.limit(limit);
-    query.offset(offset);
+    query.take(limit);
+    query.skip(offset);
 
     const data = await query.getManyAndCount();
     return { data: data[0], count: data[1] };
