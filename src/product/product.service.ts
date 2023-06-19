@@ -63,6 +63,7 @@ export class ProductService {
       .leftJoinAndSelect("product.status","status")
       .addGroupBy("product.id")
       .addGroupBy("images.id")
+      .addGroupBy("status.id")
       .where("product.confirm = :confirm",{confirm:true})
 
     if (dto?.categoryId) {
