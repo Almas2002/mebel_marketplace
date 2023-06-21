@@ -62,20 +62,21 @@ export class CategoryService {
     if (dto.categoryId) {
       parent = await this.getCategoryById(dto.categoryId);
     }
-    let fileName = '';
-    if (file) {
-      fileName = await this.fileService.createFile(file);
-    }
     const category = await this.categoryRepository.findOne({ where: { id } });
     if (!category){
       throw new NotFoundException("категорий не найден")
     }
     category.title = dto.title;
-    if (fileName !== '') {
-      category.icon = fileName;
-    }
     if (parent) {
       category.parent = parent;
+    }else {
+      let fileName = '';
+      if (file) {
+        fileName = await this.fileService.createFile(file);
+        if (fileName !== '') {
+          category.icon = fileName;
+        }
+      }
     }
     await this.categoryRepository.save(category);
   }
