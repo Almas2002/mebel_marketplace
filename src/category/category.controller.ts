@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto, QueryCategories } from './category.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -25,5 +25,11 @@ export class CategoryController{
   @Delete(":id")
   delete(@Param('id')id:number){
     return this.categoryService.delete(id)
+  }
+
+  @UseInterceptors(FileInterceptor('file'))
+  @Put(":id")
+  update(@Param('id')id:number,@Body()dto:CreateCategoryDto,@UploadedFile('file') file: any){
+    return this.categoryService.update(dto,id,file)
   }
 }

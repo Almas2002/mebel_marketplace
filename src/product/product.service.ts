@@ -9,8 +9,6 @@ import { ProductInfoService } from '../product-info/product-info.service';
 import { FileService } from '../file/file.service';
 import { FeedbackProductService } from '../feedback/service/feedback-product.service';
 import { MarketService } from '../market/market.service';
-import { MarketNotFoundException } from '../market/market.exception';
-import { OrderMarket } from '../order/order-market.entity';
 import { OrderQuery } from '../order/order.dto';
 import { ProductNotFoundException } from './product.exception';
 

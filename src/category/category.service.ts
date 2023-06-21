@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './category.entity';
 import { Repository } from 'typeorm';
@@ -53,7 +53,30 @@ export class CategoryService {
     return { data: data[0], count: data[1] };
   }
 
-  async delete(id:number){
-    await this.categoryRepository.delete({id})
+  async delete(id: number) {
+    await this.categoryRepository.delete({ id });
+  }
+
+  async update(dto: CreateCategoryDto, id: number, file: any) {
+    let parent = null;
+    if (dto.categoryId) {
+      parent = await this.getCategoryById(dto.categoryId);
+    }
+    let fileName = '';
+    if (file) {
+      fileName = await this.fileService.createFile(file);
+    }
+    const category = await this.categoryRepository.findOne({ where: { id } });
+    if (!category){
+      throw new NotFoundException("категорий не найден")
+    }
+    category.title = dto.title;
+    if (fileName !== '') {
+      category.icon = fileName;
+    }
+    if (parent) {
+      category.parent = parent;
+    }
+    await this.categoryRepository.save(category);
   }
 }
