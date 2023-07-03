@@ -8,7 +8,7 @@ server {
              allow all;
              root /var/www/html;
      }
-     return 301 https://api.loom.kz$request_uri;
+
 }
 
 server {
