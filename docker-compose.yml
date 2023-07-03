@@ -38,8 +38,6 @@ services:
       - POSTGRES_DB=mebel
     ports:
       - "5433:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
   certbot:
     image: certbot/certbot:latest
     container_name: certbot
