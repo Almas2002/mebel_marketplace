@@ -52,6 +52,5 @@ services:
 
 
 volumes:
-  pgdata:
   www-html:
   etc-letsencrypt:
