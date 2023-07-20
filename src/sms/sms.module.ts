@@ -5,10 +5,11 @@ import { AuthModule } from '../auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Sms } from './sms.entity';
 import { FileModule } from '../file/file.module';
+import { UserModule } from '../user/user.module';
 require('dotenv').config()
 @Module({
   controllers:[SmsController],
-  imports:[TypeOrmModule.forFeature([Sms])],
+  imports:[TypeOrmModule.forFeature([Sms]),UserModule],
   exports:[SmsService],
   providers:[SmsService]
 })
