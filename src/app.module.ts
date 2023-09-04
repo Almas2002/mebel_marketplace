@@ -14,6 +14,7 @@ import { FeedbackModule } from './feedback/feedback.module';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
 import { SmsModule } from './sms/sms.module';
+import { PaymentModule } from './payment/payment.module';
 require("dotenv").config()
 
 @Module({
@@ -28,7 +29,8 @@ require("dotenv").config()
     // url: process.env.DATABASE_URL,
     entities: [__dirname + "/**/*.entity{.ts,.js}"],
     synchronize: true,
-  }),UserModule,AuthModule,RoleModule,CategoryModule,BannerModule,MarketModule,RegionModule,ProductModule,ProductInfoModule,FeedbackModule,CartModule,OrderModule,SmsModule],
+  }),UserModule,AuthModule,RoleModule,CategoryModule,BannerModule,MarketModule,
+    RegionModule,ProductModule,ProductInfoModule,FeedbackModule,CartModule,OrderModule,SmsModule,PaymentModule],
   controllers: [],
   providers: [],
 })

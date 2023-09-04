@@ -47,8 +47,8 @@ export class OrderController {
   }
 
   @Put('/market/item/:id')
-  orderMarketUpdate(@Body()dto:OrderMarketUpdate,@Param('id')id:number){
-    return this.orderService.getOrdersMarketUpdate(id,dto.status)
+  orderMarketUpdate(@Body()dto: OrderMarketUpdate, @Param('id')id: number) {
+    return this.orderService.getOrdersMarketUpdate(id, dto.status);
   }
 
 }
