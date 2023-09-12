@@ -93,6 +93,9 @@ export class OrderService {
       relations: ['marketOrders', 'marketOrders.items', 'marketOrders.market', 'marketOrders.items.product', 'marketOrders.items.product.images'],
     });
   }
+  async success(id:number){
+    await this.orderMarket.update({order:{id}},{status:StatusOfOrder.PAYMENT})
+  }
 
   async getOrdersToMarket(dto: OrderMarketQuery, userId: number) {
     const limit = dto?.limit || 10;

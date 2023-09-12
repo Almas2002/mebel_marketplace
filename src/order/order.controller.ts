@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, Redirect, UseGuards } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto, OrderMarketQuery, OrderMarketUpdate, OrderQuery } from './order.dto';
 import { UserDecorator } from '../decorators/user.decorator';
@@ -17,6 +17,13 @@ export class OrderController {
   @Post()
   create(@Body()dto: CreateOrderDto, @UserDecorator('id')id: number) {
     return this.orderService.createOrder(dto, id);
+  }
+
+  @Post('/success/:id')
+  @Redirect('https://loom.kz', 302)
+  async success(@Param('id')id: number) {
+    await this.orderService.success(id);
+
   }
 
   @ApiQuery({ name: 'limit', example: 10, required: false })

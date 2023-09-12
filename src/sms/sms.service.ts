@@ -16,6 +16,7 @@ export class SmsService {
       throw new HttpException("пользователь с таким телефоном уже есть",400)
     }
     const code = SmsService.genericRandomNumbers(9999, 1000)
+    console.log(code);
     const candidate = await this.smsRepository.findOne({where:{phone}})
     if (candidate) {
       await this.smsRepository.delete({phone})
