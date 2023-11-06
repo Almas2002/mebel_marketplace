@@ -162,8 +162,8 @@ export class ProductService {
     const offset = page * limit - limit;
     const query = this.productRepository.createQueryBuilder('product')
       .leftJoinAndSelect('product.images', 'images')
-    query.limit(limit);
-    query.offset(offset);
+    query.skip(offset);
+    query.take(limit);
 
     const data = await query.getManyAndCount();
     return { data: data[0], count: data[1] };
