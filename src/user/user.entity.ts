@@ -13,18 +13,18 @@ export class User {
   phone: string;
   @Column({select:false})
   password: string;
-  @ManyToMany(() => Role, role => role)
+  @ManyToMany(() => Role, role => role,{onDelete:'CASCADE'})
   @JoinTable({ name: 'user_roles' })
   roles: Role[];
 
-  @OneToOne(()=>Profile,profile=>profile.user)
+  @OneToOne(()=>Profile,profile=>profile.user,{onDelete:'CASCADE'})
   profile:Profile
-  @OneToOne(() => Market, market => market.user)
+  @OneToOne(() => Market, market => market.user,{onDelete:'CASCADE'})
   market: Market;
 
   @OneToMany(()=>FeedbackComment,feedback=>feedback.user,{onDelete:"SET NULL"})
   feedbacks: FeedbackComment[];
 
-  @OneToOne(()=>Cart,cart=>cart.user)
+  @OneToOne(()=>Cart,cart=>cart.user,{onDelete:'CASCADE'})
   cart:Cart;
 }

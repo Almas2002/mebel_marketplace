@@ -54,4 +54,8 @@ export class UserService {
   async getUserByPhoneNumber(phone: string) {
     return this.userRepository.findOne({where:{phone},select: ['password', 'id', 'phone']});
   }
+
+  async deleteUser(id:number){
+    return this.userRepository.delete({id})
+  }
 }
