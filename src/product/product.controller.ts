@@ -68,7 +68,6 @@ export class ProductController {
   @UseInterceptors(FileFieldsInterceptor(([{ name: 'file', maxCount: 7 }])))
   @Put('/:id')
   updateProduct(@Body()body: UpdateProductDto, @Param('id')id: number, @UploadedFiles()files: { file: any[] }) {
-    console.log(id);
     return this.productService.updateProduct(body, id, files?.file);
   }
 
