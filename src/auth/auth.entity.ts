@@ -5,7 +5,7 @@ import { User } from '../user/user.entity';
 export class Auth{
   @PrimaryGeneratedColumn()
   id: number;
-  @OneToOne(()=>User)
+  @OneToOne(()=>User,{onDelete:"CASCADE"})
   @JoinColumn()
   user: User;
   @Column()
