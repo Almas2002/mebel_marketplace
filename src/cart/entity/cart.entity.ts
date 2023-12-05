@@ -7,7 +7,7 @@ import { Order } from '../../order/order.entity';
 export class Cart {
   @PrimaryGeneratedColumn()
   id: number;
-  @OneToOne(() => User,user=>user.cart)
+  @OneToOne(() => User,user=>user.cart,{onDelete:"CASCADE"})
   @JoinColumn({ name: 'user_id' })
   user: User;
   @OneToMany(()=>CartItem,items=>items.cart)
